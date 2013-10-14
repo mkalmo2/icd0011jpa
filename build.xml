@@ -1,103 +1,24 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <!DOCTYPE project>
-<project name="part5" default="war" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project basedir="." name="jeeProject" default="retrieve"
+    xmlns:ivy="antlib:org.apache.ivy.ant">
 
-    <property file="user.properties" />
-    <property name="deployContextPath" location="/part3example" />
-
-    <property name="src.dir" location="src" />
-    <property name="bulid.dir" location="build" />
-    <property name="classes.dir" location="${bulid.dir}/classes" />
-    <property name="webContent.dir" location="WebContent" />
-    <property name="lib.dir" location="${webContent.dir}/WEB-INF/lib" />
-    <property name="lib.custom.dir" location="../lib" />
-    <property name="war.file" location="${bulid.dir}/part3.war" />
+    <property name="dir.lib" value="WebContent/WEB-INF/lib" />
     <property name="ivy.retrieve.pattern"
-        value="${lib.dir}/[artifact]-[type]-[revision].[ext]" />
+        value="WebContent/WEB-INF/lib/[artifact]-[type]-[revision].[ext]" />
 
-    <path id="classpath.tomcat">
-        <fileset dir="${dir.tomcat}/lib">
-            <include name="*.jar" />
-        </fileset>
-        <fileset dir="${dir.tomcat}/bin">
-            <include name="*.jar" />
-        </fileset>
-    </path>
-
-    <path id="compile.classpath">
-        <fileset dir="${lib.dir}">
-            <include name="*.jar" />
-        </fileset>
-        <fileset dir="${lib.custom.dir}">
-            <include name="*.jar" />
-        </fileset>
-    </path>
-
-    <path id="test.classpath">
-        <path refid="compile.classpath" />
-        <path location="${classes.dir}" />
+    <path id="classpath">
+        <fileset dir="lib" />
     </path>
 
     <target name="retrieve" description="retreive dependencies">
         <taskdef resource="org/apache/ivy/ant/antlib.xml"
             uri="antlib:org.apache.ivy.ant"
-            classpathref="compile.classpath" />
+            classpathref="classpath" />
 
-        <ivy:resolve file="ivy.xml" log="download-only" />
+        <ivy:resolve file="${basedir}/ivy.xml" log="download-only" />
 
         <ivy:retrieve pattern="${ivy.retrieve.pattern}" conf="default" />
-    </target>
-
-    <target name="war" depends="compile, copy_resources">
-        <war destfile="${war.file}"
-            webxml="${webContent.dir}/WEB-INF/web.xml">
-            <classes dir="${classes.dir}" />
-            <fileset dir="${webContent.dir}"
-                excludes="**/servlet-api-jar-2.5.jar,**/1ant-jar-1.9.2.jar"/>
-        </war>
-    </target>
-
-    <target name="copy_resources">
-        <copy todir="${classes.dir}" includeemptydirs="false">
-            <fileset dir="${src.dir}" excludes="**/*.java" />
-        </copy>
-    </target>
-
-    <target name="compile" depends="clean, init, retrieve">
-        <javac srcdir="${src.dir}" destdir="${classes.dir}"
-            target="1.6" source="1.6" includeantruntime="false">
-            <classpath refid="compile.classpath" />
-        </javac>
-    </target>
-
-    <target name="deploy" depends="war">
-        <taskdef name="deploy"
-            classname="org.apache.catalina.ant.DeployTask"
-            classpathref="classpath.tomcat"/>
-
-        <deploy url="${managerUrl}"
-            username="${managerUsername}"
-            password="${managerPassword}"
-            path="${deployContextPath}"
-            update="true" war="file:${war.file} " />
-    </target>
-
-    <target name="undeploy">
-        <taskdef name="undeploy"
-            classname="org.apache.catalina.ant.UndeployTask"
-            classpathref="classpath.tomcat" />
-        <undeploy url="${managerUrl}"
-            username="${managerUsername}"
-            password="${managerPassword}"
-            path="${deployContextPath}" />
-    </target>
-
-    <target name="init">
-        <mkdir dir="${classes.dir}" />
-    </target>
-
-    <target name="clean">
-        <delete dir="${bulid.dir}" />
     </target>
 
 </project>
