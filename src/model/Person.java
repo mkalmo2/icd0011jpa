@@ -16,53 +16,55 @@ public class Person {
 
     private String name;
 
-    @OneToMany(mappedBy = "person", cascade = { CascadeType.ALL })
+    @OneToMany(mappedBy = "person",
+               cascade = { CascadeType.ALL },
+               fetch = FetchType.EAGER)
     private List<Phone> phones;
-    
+
     @OneToOne(cascade = { CascadeType.ALL })
-    private Address address;    
-    
-	@Override
-	public String toString() {
-		return "Person [id=" + getId() + ", name=" + name + "]";
-	}
+    private Address address;
 
-	public String getName() {
-		return name;
-	}
+    @Override
+    public String toString() {
+        return "Person [id=" + getId() + ", name=" + name + "]";
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    public Address getAddress() {
+        return address;
+    }
 
-	public List<Phone> getPhones() {
-		return phones;
-	}
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
-	public void setPhones(List<Phone> phones) {
-		this.phones = phones;
-	}
+    public List<Phone> getPhones() {
+        return phones;
+    }
 
-	public void addPhone(Phone p) {
-		if (phones != null) phones = new ArrayList<Phone>();
-		phones.add(p);
-		p.setPerson(this);
-	}
-	
+    public void setPhones(List<Phone> phones) {
+        this.phones = phones;
+    }
+
+    public void addPhone(Phone p) {
+        if (phones != null) phones = new ArrayList<Phone>();
+        phones.add(p);
+        p.setPerson(this);
+    }
+
 }
