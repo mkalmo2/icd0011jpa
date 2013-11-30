@@ -5,12 +5,9 @@ import javax.persistence.Persistence;
 
 public class JpaUtil {
 
-    private static EntityManagerFactory emf;
-
-    static {
-        emf = Persistence.createEntityManagerFactory("my-hsql-unit",
-                new PropertyLoader().getPropertiesAsMap());
-    }
+    private static EntityManagerFactory emf =
+            Persistence.createEntityManagerFactory("my-hsql-unit",
+                        new PropertyLoader().getPropertiesAsMap());;
 
     public static EntityManagerFactory getFactory() {
         return emf;
