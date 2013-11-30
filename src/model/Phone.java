@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.*;
 
+@Entity
 public class Phone {
 
     @Id
@@ -11,7 +12,24 @@ public class Phone {
 
     private String number;
 
+    @ManyToOne
     private Person person;
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
 
 
 }

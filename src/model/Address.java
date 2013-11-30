@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.*;
 
+@Entity
 public class Address {
 
     @Id
@@ -9,4 +10,21 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq")
     private Long id;
 
+    private String street;
+
+    
+    
+	@Override
+	public String toString() {
+		return "Address [id=" + id + ", street=" + street + "]";
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+    
 }
