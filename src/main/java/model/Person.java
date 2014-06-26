@@ -1,10 +1,8 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.*;
-
 
 @Entity
 public class Person {

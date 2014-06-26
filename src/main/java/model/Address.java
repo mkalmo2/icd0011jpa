@@ -12,19 +12,17 @@ public class Address {
 
     private String street;
 
-    
-    
-	@Override
-	public String toString() {
-		return "Address [id=" + id + ", street=" + street + "]";
-	}
+    @Override
+    public String toString() {
+        return "Address [id=" + id + ", street=" + street + "]";
+    }
 
-	public String getStreet() {
-		return street;
-	}
+    public String getStreet() {
+        return street;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
-    
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
 }

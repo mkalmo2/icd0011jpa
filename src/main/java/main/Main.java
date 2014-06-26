@@ -1,11 +1,8 @@
 package main;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 
 import dao.SetupDao;
 import model.*;
@@ -15,39 +12,39 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        new SetupDao().createSchema();
+        new SetupDao().createSchema();
 
-//    	insertPerson("John");
-//    	insertPerson("Mery");
+        insertPerson("John");
+        insertPerson("Mery");
 
-        // Tehke meetod, mis v�imaldab loetud isikut salvestada.
+        // Tehke meetod, mis võimaldab loetud isikut salvestada.
 
-//    	System.out.println(findAllPerson());
-//    	Person john = findPersonByName("John");
-//    	john.setName("Jonny");
-//    	savePerson(john);
+        System.out.println(findAllPersons());
+        Person john = findPersonByName("John");
+        john.setName("Jonny");
+        savePerson(john);
 
-//    	Person person = new Person();
-//    	person.setName("Jill");
-//    	Address address = new Address();
-//    	address.setStreet("Kase 2");
-//    	person.setAddress(address);
-//
-//    	savePerson(person);
+        Person person = new Person();
+        person.setName("Jill");
+        Address address = new Address();
+        address.setStreet("Kase 2");
+        person.setAddress(address);
 
-//    	Person jill = findPersonByName("Jill");
-//    	System.out.println(jill);
-//    	System.out.println(jill.getAddress());
+        savePerson(person);
+
+        Person jill = findPersonByName("Jill");
+        System.out.println(jill);
+        System.out.println(jill.getAddress());
 
         // Lisage isikule telefonide list @OneToMany.
 
-//        Person person = new Person();
-//        person.setName("Alice1");
-//        Phone phone = new Phone();
-//        phone.setNumber("111");
-//        phone.setPerson(person);
-//        person.setPhones(Arrays.asList(phone));
-//        savePerson(person);
+        Person person2 = new Person();
+        person2.setName("Alice1");
+        Phone phone = new Phone();
+        phone.setNumber("111");
+        phone.setPerson(person2);
+        person2.setPhones(Arrays.asList(phone));
+        savePerson(person2);
 
         Person p = findPersonByName("Alice1");
         System.out.println(p);
@@ -91,7 +88,7 @@ public class Main {
         }
     }
 
-    private static List<Person> findAllPerson() {
+    private static List<Person> findAllPersons() {
         EntityManager em = null;
         try {
             em = JpaUtil.getFactory().createEntityManager();
