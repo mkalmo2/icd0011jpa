@@ -14,49 +14,38 @@ public class Main {
 
         new SetupDao().createSchema();
 
-        insertPerson("John");
-        insertPerson("Mery");
-
-        // Tehke meetod, mis võimaldab loetud isikut salvestada.
+        insertPerson("Jack");
+        insertPerson("Jill");
+        insertPerson("Joe");
 
         System.out.println(findAllPersons());
-        Person john = findPersonByName("John");
-        john.setName("Jonny");
-        savePerson(john);
+        Person jill = findPersonForName("Jill");
 
-        Person person = new Person();
-        person.setName("Jill");
-        Address address = new Address();
-        address.setStreet("Kase 2");
-        person.setAddress(address);
+        jill.setAddress(new Address("Kase 1"));
 
-        savePerson(person);
+        save(jill);
 
-        Person jill = findPersonByName("Jill");
-        System.out.println(jill);
+        jill = findPersonForName("Jill");
+
         System.out.println(jill.getAddress());
 
-        // Lisage isikule telefonide list @OneToMany.
+        jill.setPhones(Arrays.asList(
+                new Phone("123"), new Phone("456")));
 
-        Person person2 = new Person();
-        person2.setName("Alice1");
-        Phone phone = new Phone();
-        phone.setNumber("111");
-        phone.setPerson(person2);
-        person2.setPhones(Arrays.asList(phone));
-        savePerson(person2);
+        save(jill);
 
-        Person p = findPersonByName("Alice1");
-        System.out.println(p);
-        System.out.println(p.getPhones());
+        jill = findPersonForName("Jill");
+
+        System.out.println(jill.getPhones());
 
         JpaUtil.closeFactory();
     }
 
-    private static void savePerson(Person person) {
+    private static void save(Person person) {
         EntityManager em = null;
         try {
             em = JpaUtil.getFactory().createEntityManager();
+
             em.getTransaction().begin();
 
             if (person.getId() == null) {
@@ -66,12 +55,27 @@ public class Main {
             }
 
             em.getTransaction().commit();
+
         } finally {
-            if (em != null) em.close();
+            JpaUtil.closeQuietly(em);
         }
     }
 
-    private static Person findPersonByName(String name) {
+    private static List<Person> findAllPersons() {
+        EntityManager em = null;
+        try {
+            em = JpaUtil.getFactory().createEntityManager();
+
+            TypedQuery<Person> query = em.createQuery("select p from Person p", Person.class);
+
+            return query.getResultList();
+
+        } finally {
+            JpaUtil.closeQuietly(em);
+        }
+    }
+
+    private static Person findPersonForName(String name) {
         EntityManager em = null;
         try {
             em = JpaUtil.getFactory().createEntityManager();
@@ -84,22 +88,7 @@ public class Main {
             return query.getSingleResult();
 
         } finally {
-            if (em != null) em.close();
-        }
-    }
-
-    private static List<Person> findAllPersons() {
-        EntityManager em = null;
-        try {
-            em = JpaUtil.getFactory().createEntityManager();
-
-            TypedQuery<Person> query = em.createQuery(
-                    "select p from Person p", Person.class);
-
-            return query.getResultList();
-
-        } finally {
-            if (em != null) em.close();
+            JpaUtil.closeQuietly(em);
         }
     }
 
@@ -117,8 +106,9 @@ public class Main {
 
             em.getTransaction().commit();
         } finally {
-            if (em != null) em.close();
+            JpaUtil.closeQuietly(em);
         }
     }
+
 
 }

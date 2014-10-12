@@ -1,5 +1,6 @@
 package util;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -15,6 +16,12 @@ public class JpaUtil {
 
     public static void closeFactory() {
         emf.close();
+    }
+
+    public static void closeQuietly(EntityManager em) {
+        if (em != null) {
+            em.close();
+        }
     }
 
 }

@@ -6,30 +6,37 @@ import javax.persistence.*;
 public class Phone {
 
     @Id
-    @SequenceGenerator(name = "my_seq", sequenceName = "SEQ1", allocationSize = 1)
+    @SequenceGenerator(name = "my_seq", sequenceName = "seq1", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq")
     private Long id;
 
     private String number;
 
-    @ManyToOne
-    private Person person;
+    public Phone() {}
 
-	public String getNumber() {
-		return number;
-	}
+    public Phone(String number) {
+        this.number = number;
+    }
 
-	public void setNumber(String number) {
-		this.number = number;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Person getPerson() {
-		return person;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setPerson(Person person) {
-		this.person = person;
-	}
+    public String getNumber() {
+        return number;
+    }
 
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    @Override
+    public String toString() {
+        return number;
+    }
 
 }

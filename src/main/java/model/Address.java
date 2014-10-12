@@ -6,15 +6,24 @@ import javax.persistence.*;
 public class Address {
 
     @Id
-    @SequenceGenerator(name = "my_seq", sequenceName = "SEQ1", allocationSize = 1)
+    @SequenceGenerator(name = "my_seq", sequenceName = "seq1", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq")
     private Long id;
 
     private String street;
 
-    @Override
-    public String toString() {
-        return "Address [id=" + id + ", street=" + street + "]";
+    public Address() {}
+
+    public Address(String street) {
+        this.street = street;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getStreet() {
@@ -23,6 +32,11 @@ public class Address {
 
     public void setStreet(String street) {
         this.street = street;
+    }
+
+    @Override
+    public String toString() {
+        return street;
     }
 
 }

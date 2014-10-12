@@ -8,24 +8,19 @@ import javax.persistence.*;
 public class Person {
 
     @Id
-    @SequenceGenerator(name = "my_seq", sequenceName = "SEQ1", allocationSize = 1)
+    @SequenceGenerator(name = "my_seq", sequenceName = "seq1", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq")
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "person",
-               cascade = { CascadeType.ALL },
-               fetch = FetchType.EAGER)
-    private List<Phone> phones;
-
-    @OneToOne(cascade = { CascadeType.ALL })
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @Override
-    public String toString() {
-        return "Person [id=" + getId() + ", name=" + name + "]";
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    // IMPORTANT
+    @JoinColumn(name="person_id", nullable = false)
+    private List<Phone> phones;
 
     public String getName() {
         return name;
@@ -33,6 +28,11 @@ public class Person {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     public Long getId() {
@@ -57,12 +57,6 @@ public class Person {
 
     public void setPhones(List<Phone> phones) {
         this.phones = phones;
-    }
-
-    public void addPhone(Phone p) {
-        if (phones != null) phones = new ArrayList<Phone>();
-        phones.add(p);
-        p.setPerson(this);
     }
 
 }
