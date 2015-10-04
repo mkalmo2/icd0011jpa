@@ -1,49 +1,63 @@
 package util;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.Properties;
-
-import org.apache.tools.ant.taskdefs.Property;
 
 public class PropertyLoader {
 
+    private static final String PROPERTIES_FILENAME = "application.properties";
+
+    private static Properties cache;
+
     public HashMap<String, String> getPropertiesAsMap() {
-        final Property p = getPropertyObject();
+        Properties properties = getProperties();
 
         HashMap<String, String> hashMap = new HashMap<String, String>();
 
-        Hashtable<String, Object> properties = p.getProject().getProperties();
-        for (Entry<String, Object> each : properties.entrySet()) {
-            hashMap.put(each.getKey(), (String) each.getValue());
+        for (Entry<Object, Object> each : properties.entrySet()) {
+            String value = each.getValue().toString();
+            hashMap.put(each.getKey().toString(), replaceSystemVariables(value));
         }
 
         return hashMap;
     }
 
-    private Property getPropertyObject() {
-        String filePath = getClass()
-                .getResource("/application.properties").getFile();
-
-        final Property p = AntUtil.getTask(Property.class, "property");
-        p.setFile(new File(filePath));
-        p.execute();
-        return p;
+    public String getProperty(String key) {
+        return getProperties().getProperty(key);
     }
 
     public Properties getProperties() {
-        final Property p = getPropertyObject();
+        if (cache != null) {
+            return cache;
+        }
 
-        return new Properties() {
-            private static final long serialVersionUID = 1L;
+        Properties properties = new Properties();
+        try (InputStream is = PropertyLoader.class.getClassLoader()
+                .getResourceAsStream(PROPERTIES_FILENAME)) {
+            properties.load(is);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-            public String getProperty(String key) {
-                return p.getProject().getProperty(key);
-            }
-        };
+        cache = properties;
+
+        return properties;
     }
 
+    private String replaceSystemVariables(String value) {
+        Pattern pattern = Pattern.compile("\\$\\{([^}]+)\\}");
+        Matcher matcher = pattern.matcher(value);
+        StringBuffer buf = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(buf, System.getProperty(matcher.group(1)));
+        }
+        matcher.appendTail(buf);
 
+        return buf.toString();
+    }
 }

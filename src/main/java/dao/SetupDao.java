@@ -1,29 +1,37 @@
 package dao;
 
-import java.io.File;
-import java.util.Properties;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-import org.apache.tools.ant.taskdefs.SQLExec;
-
-import util.AntUtil;
+import util.FileUtil;
 import util.PropertyLoader;
 
 public class SetupDao {
 
-    public void createSchema() {
-        String filePath = getClass().getResource("/schema.sql").getFile();
+    private static String DB_URL = new PropertyLoader().getProperty("javax.persistence.jdbc.url");
 
-        executeSql(filePath, new PropertyLoader().getProperties());
+    public void createSchema() {
+        String contents = FileUtil.readFileFromClasspath("schema.sql");
+
+        for (String statement : contents.split(";")) {
+            if (statement.matches("\\s*")) {
+                continue;
+            }
+
+            executeUpdate(statement);
+        }
     }
 
-    private void executeSql(String filePath, Properties prop) {
-        SQLExec sql = AntUtil.getTask(SQLExec.class, "sql");
-        sql.setSrc(new File(filePath));
-        sql.setDriver("org.hsqldb.jdbcDriver");
-        sql.setUserid("sa");
-        sql.setPassword("");
-        sql.setUrl(prop.getProperty("javax.persistence.jdbc.url"));
-        sql.execute();
+    private void executeUpdate(String sql) {
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement()) {
+
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

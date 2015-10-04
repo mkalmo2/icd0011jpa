@@ -1,11 +1,15 @@
 package main;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import dao.SetupDao;
-import model.*;
+import model.Address;
+import model.Person;
+import model.Phone;
 import util.JpaUtil;
 
 public class Main {
