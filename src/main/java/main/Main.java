@@ -21,6 +21,7 @@ public class Main {
             JpaUtil.closeQuietly(em);
         }
 
+        JpaUtil.closeFactory();
     }
 
 

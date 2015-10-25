@@ -6,16 +6,22 @@ import javax.persistence.Persistence;
 
 public class JpaUtil {
 
-    private static EntityManagerFactory emf =
-            Persistence.createEntityManagerFactory("my-hsql-unit",
-                        new PropertyLoader().getPropertiesAsMap());;
+    private static EntityManagerFactory emf;
 
     public static EntityManagerFactory getFactory() {
+        if (emf != null) {
+            return emf;
+        }
+
+        emf = Persistence.createEntityManagerFactory("my-hsql-unit",
+                            new PropertyLoader().getPropertiesAsMap());;
+
         return emf;
     }
 
     public static void closeFactory() {
         emf.close();
+        org.hsqldb.DatabaseManager.closeDatabases(3);
     }
 
     public static void closeQuietly(EntityManager em) {
