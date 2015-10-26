@@ -54,7 +54,9 @@ public class PropertyLoader {
         Matcher matcher = pattern.matcher(value);
         StringBuffer buf = new StringBuffer();
         while (matcher.find()) {
-            matcher.appendReplacement(buf, System.getProperty(matcher.group(1)));
+        	String v = System.getProperty(matcher.group(1));
+        	v = v.replace("\\", "\\\\");
+        	matcher.appendReplacement(buf, v);
         }
         matcher.appendTail(buf);
 
