@@ -20,7 +20,9 @@ public class JpaUtil {
     }
 
     public static void closeFactory() {
-        emf.close();
+        if (emf != null) {
+            emf.close();
+        }
         org.hsqldb.DatabaseManager.closeDatabases(3);
     }
 

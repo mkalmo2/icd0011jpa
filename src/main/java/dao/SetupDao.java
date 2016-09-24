@@ -1,37 +1,23 @@
 package dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-
+import util.DbUtil;
 import util.FileUtil;
 import util.PropertyLoader;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class SetupDao {
 
-    private static String DB_URL = new PropertyLoader().getProperty("javax.persistence.jdbc.url");
-
     public void createSchema() {
-        String contents = FileUtil.readFileFromClasspath("schema.sql");
+        String statements = FileUtil.readFileFromClasspath("schema.sql");
+        String dbUrl = new PropertyLoader().getProperty("javax.persistence.jdbc.url");
 
-        for (String statement : contents.split(";")) {
-            if (statement.matches("\\s*")) {
-                continue;
-            }
-
-            executeUpdate(statement);
-        }
-    }
-
-    private void executeUpdate(String sql) {
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             Statement stmt = conn.createStatement()) {
-
-            stmt.executeUpdate(sql);
+        try (Connection c = DriverManager.getConnection(dbUrl)) {
+            DbUtil.insertFromString(c, statements);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
 }

@@ -1,12 +1,12 @@
 package util;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Properties;
 
 public class PropertyLoader {
 
@@ -17,7 +17,7 @@ public class PropertyLoader {
     public HashMap<String, String> getPropertiesAsMap() {
         Properties properties = getProperties();
 
-        HashMap<String, String> hashMap = new HashMap<String, String>();
+        HashMap<String, String> hashMap = new HashMap<>();
 
         for (Entry<Object, Object> each : properties.entrySet()) {
             String value = each.getValue().toString();
@@ -37,9 +37,10 @@ public class PropertyLoader {
         }
 
         Properties properties = new Properties();
-        try (InputStream is = PropertyLoader.class.getClassLoader()
-                .getResourceAsStream(PROPERTIES_FILENAME)) {
-            properties.load(is);
+
+        try {
+            String contents = FileUtil.readFileFromClasspath(PROPERTIES_FILENAME);
+            properties.load(new ByteArrayInputStream(contents.getBytes()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
