@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.*;
 
 @Data
-@Entity
 public class Person {
 
     @Id
@@ -16,14 +15,8 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq")
     private Long id;
 
-    @Column(name = "name")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "person_id", nullable = false)
     private List<Phone> phones = new ArrayList<>();
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
 
 }
