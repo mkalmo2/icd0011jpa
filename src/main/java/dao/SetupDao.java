@@ -12,7 +12,7 @@ public class SetupDao {
 
     public void createSchema() {
         String statements = FileUtil.readFileFromClasspath("schema.sql");
-        String dbUrl = new PropertyLoader().getProperty("javax.persistence.jdbc.url");
+        String dbUrl = PropertyLoader.getProperty("javax.persistence.jdbc.url");
 
         try (Connection c = DriverManager.getConnection(dbUrl)) {
             DbUtil.insertFromString(c, statements);

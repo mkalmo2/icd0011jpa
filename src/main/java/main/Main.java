@@ -73,7 +73,8 @@ public class Main {
             em = JpaUtil.getFactory().createEntityManager();
 
             TypedQuery<Person> query = em.createQuery(
-                    "select distinct p from Person p LEFT JOIN FETCH p.phones", Person.class);
+                    "SELECT DISTINCT p FROM Person p LEFT JOIN FETCH p.phones",
+                    Person.class);
 
             System.out.println(query.getResultList());
 

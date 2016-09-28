@@ -16,9 +16,10 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq")
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id", nullable = false)
     private List<Phone> phones = new ArrayList<>();
 

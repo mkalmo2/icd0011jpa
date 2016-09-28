@@ -14,7 +14,7 @@ public class PropertyLoader {
 
     private static Properties cache;
 
-    public HashMap<String, String> getPropertiesAsMap() {
+    public static HashMap<String, String> getPropertiesAsMap() {
         Properties properties = getProperties();
 
         HashMap<String, String> hashMap = new HashMap<>();
@@ -27,11 +27,11 @@ public class PropertyLoader {
         return hashMap;
     }
 
-    public String getProperty(String key) {
+    public static String getProperty(String key) {
         return getProperties().getProperty(key);
     }
 
-    public Properties getProperties() {
+    public static Properties getProperties() {
         if (cache != null) {
             return cache;
         }
@@ -50,7 +50,7 @@ public class PropertyLoader {
         return properties;
     }
 
-    private String replaceSystemVariables(String value) {
+    private static String replaceSystemVariables(String value) {
         Pattern pattern = Pattern.compile("\\$\\{([^}]+)\\}");
         Matcher matcher = pattern.matcher(value);
         StringBuffer buf = new StringBuffer();
