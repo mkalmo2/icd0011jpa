@@ -17,6 +17,4 @@ public class Person {
 
     private String name;
 
-    private List<Phone> phones = new ArrayList<>();
-
 }
