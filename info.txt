@@ -11,6 +11,8 @@
 
 @Id - ütleb, et seda välja kasutatakse andmebaasis id-na.
 
+@GeneratedValue - ütleb, et sellele väljale peab andmebaasi ise väärtuse panema.
+
 @SequenceGenerator(name = "my_seq", sequenceName = "<järjendi nimi>", allocationSize = 1)
 @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq")
   See komplekt ütleb, et id väärtused tuleb võtta järjendist (sequence) nimega <järjendi nimi>.
