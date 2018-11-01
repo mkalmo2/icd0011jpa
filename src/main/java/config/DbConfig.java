@@ -34,8 +34,8 @@ public class DbConfig {
         ds.setDriverClassName("org.hsqldb.jdbcDriver");
         ds.setUrl(env.getProperty("db.url"));
 
-        new JdbcTemplate(ds).update(
-                FileUtil.readFileFromClasspath("schema.sql"));
+//        new JdbcTemplate(ds).update(
+//                FileUtil.readFileFromClasspath("schema.sql"));
 
         return ds;
     }
@@ -51,7 +51,7 @@ public class DbConfig {
     public EntityManagerFactory entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-        factory.setPackagesToScan("model");
+        factory.setPackagesToScan("non_existent_package");
         factory.setDataSource(dataSource());
         factory.setJpaProperties(additionalProperties());
         factory.afterPropertiesSet();
@@ -61,7 +61,7 @@ public class DbConfig {
 
     private Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "validate");
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect",
                 "org.hibernate.dialect.HSQLDialect");
         properties.setProperty("hibernate.show_sql", "false");
