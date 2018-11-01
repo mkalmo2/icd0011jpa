@@ -1,30 +1,23 @@
 DROP SCHEMA PUBLIC CASCADE;
 
-CREATE SEQUENCE seq1
-  AS INTEGER
-    START WITH 1;
+CREATE SEQUENCE jarjend AS INTEGER START WITH 1;
 
-CREATE TABLE address (
+CREATE TABLE aadress (
   id     BIGINT       NOT NULL PRIMARY KEY,
-  street VARCHAR(255) NOT NULL
+  tanav VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE person (
+CREATE TABLE isik (
   id         BIGINT NOT NULL PRIMARY KEY,
-  name       VARCHAR(255) NOT NULL,
-  address_id BIGINT,
-  FOREIGN KEY (address_id)
-  REFERENCES address
-    ON DELETE RESTRICT
+  nimi       VARCHAR(255) NOT NULL,
+  aadressi_id BIGINT,
+  FOREIGN KEY (aadressi_id)
+    REFERENCES aadress(id) ON DELETE RESTRICT
 );
 
-ALTER TABLE person ADD UNIQUE (name);
-
-CREATE TABLE phone (
-  id        BIGINT       NOT NULL PRIMARY KEY,
+CREATE TABLE isiku_telefonid (
+  isiku_id BIGINT       NOT NULL,
   number    VARCHAR(255) NOT NULL,
-  person_id BIGINT       NOT NULL,
-  FOREIGN KEY (person_id)
-  REFERENCES person
-    ON DELETE RESTRICT
+  FOREIGN KEY (isiku_id)
+    REFERENCES isik(id) ON DELETE CASCADE
 );

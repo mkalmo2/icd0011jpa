@@ -1,20 +1,15 @@
 package model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Embeddable
 public class Phone {
 
-    private Long id;
-
     private String number;
-
-    public Phone(String number) {
-        this.number = number;
-    }
 
 }
