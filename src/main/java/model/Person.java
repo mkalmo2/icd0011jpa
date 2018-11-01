@@ -20,8 +20,4 @@ public class Person {
 
     private String name;
 
-    private Address address;
-
-    private List<Phone> phones = new ArrayList<>();
-
 }
