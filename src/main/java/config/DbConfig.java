@@ -2,18 +2,19 @@ package config;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import util.FileUtil;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -29,15 +30,25 @@ public class DbConfig {
     private Environment env;
 
     @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("org.hsqldb.jdbcDriver");
-        ds.setUrl(env.getProperty("db.url"));
+    public EntityManagerFactory entityManagerFactory(
+            DataSource dataSource,
+            @Qualifier("dialect") String  dialect) {
 
-//        new JdbcTemplate(ds).update(
-//                FileUtil.readFileFromClasspath("schema.sql"));
+        var populator = new ResourceDatabasePopulator(
+                new ClassPathResource("schema.sql"));
 
-        return ds;
+        DatabasePopulatorUtils.execute(populator, dataSource);
+
+        LocalContainerEntityManagerFactoryBean factory =
+                new LocalContainerEntityManagerFactoryBean();
+        factory.setPersistenceProviderClass(
+                HibernatePersistenceProvider.class);
+        factory.setPackagesToScan("model");
+        factory.setDataSource(dataSource);
+        factory.setJpaProperties(additionalProperties(dialect));
+        factory.afterPropertiesSet();
+
+        return factory.getObject();
     }
 
     @Bean
@@ -47,23 +58,10 @@ public class DbConfig {
         return new JpaTransactionManager(entityManagerFactory);
     }
 
-    @Bean
-    public EntityManagerFactory entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-        factory.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-        factory.setPackagesToScan("non_existent_package");
-        factory.setDataSource(dataSource());
-        factory.setJpaProperties(additionalProperties());
-        factory.afterPropertiesSet();
-
-        return factory.getObject();
-    }
-
-    private Properties additionalProperties() {
+    private Properties additionalProperties(String dialect) {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        properties.setProperty("hibernate.dialect",
-                "org.hibernate.dialect.HSQLDialect");
+        properties.setProperty("hibernate.hbm2ddl.auto", "validate");
+        properties.setProperty("hibernate.dialect", dialect);
         properties.setProperty("hibernate.show_sql", "false");
         properties.setProperty("hibernate.format_sql", "true");
 

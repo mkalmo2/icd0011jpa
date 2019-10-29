@@ -1,15 +1,20 @@
 plugins {
-    id 'org.gretty' version '2.2.0'
-    id 'war'
+    id 'java'
+    id 'org.gretty' version '2.3.1'
 }
 
 repositories {
     jcenter()
 }
 
-sourceCompatibility = 8
+sourceCompatibility = 11
 
-def springVersion = '5.1.0.RELEASE'
+def springVersion = '5.2.0.RELEASE'
+def postgresVersion = '42.2.7'
+def hsqlVersion = '2.5.0'
+def log4jVersion = '2.12.1'
+def lombokVersion = '1.18.10'
+def hibernateVersion = '5.4.7.Final'
 
 dependencies {
 
@@ -23,29 +28,29 @@ dependencies {
 
     compile group: 'org.hibernate',
             name: 'hibernate-core',
-            version: '5.3.7.Final'
+            version: hibernateVersion
 
-    compile group: 'javax.xml.bind',
-            name: 'jaxb-api',
-            version: '2.4.0-b180830.0359'
+    compile group: 'org.postgresql',
+            name: 'postgresql',
+            version: postgresVersion
 
     compile group: 'org.hsqldb',
             name: 'hsqldb',
-            version: '2.4.1'
+            version: hsqlVersion
 
     compile group: 'org.apache.logging.log4j',
             name: 'log4j-api',
-            version: '2.11.1'
+            version: log4jVersion
 
     compile group: 'org.apache.logging.log4j',
             name: 'log4j-core',
-            version: '2.11.1'
+            version: log4jVersion
 
     compileOnly group: 'org.projectlombok',
             name: 'lombok',
-            version: '1.18.2'
+            version: lombokVersion
 
     annotationProcessor group: 'org.projectlombok',
             name: 'lombok',
-            version: '1.18.2'
+            version: lombokVersion
 }

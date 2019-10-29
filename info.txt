@@ -5,10 +5,6 @@
 
 @Entity - ütleb, et seda klassi peab olema võimalik andmebaasi salvestada.
 
-@Table(name = "<tabeli nimi>") - määrab tabeli nime, kuhu seda tüüpi objektid salvestada.
-
-@Column(name = "<välja nimi>") - määrab veeru nime, kuhu selle välja sisu salvestada.
-
 @Id - ütleb, et seda välja kasutatakse andmebaasis id-na.
 
 @GeneratedValue - ütleb, et sellele väljale peab andmebaasi ise väärtuse panema.
@@ -51,3 +47,7 @@ properties.setProperty("hibernate.show_sql", "true");
 @Transactional
   ütleb, et selle meetodi alguses tuleb alustada transaktsiooniga
   ja meetodi lõppedes alustatud transaktsioon lõpetada (commit).
+
+@Table(name = "<tabeli nimi>") - määrab tabeli nime, kuhu seda tüüpi objektid salvestada.
+
+@Column(name = "<välja nimi>") - määrab veeru nime, kuhu selle välja sisu salvestada.
