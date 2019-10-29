@@ -1,19 +1,14 @@
 package model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-@Entity
-@Table(name = "aadress")
-public class Address extends BaseEntity {
+public class Address {
 
-    @Column(name = "tanav")
+    private Long id;
+
     private String street;
 
     public Address(String street) {

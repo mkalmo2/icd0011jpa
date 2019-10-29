@@ -1,32 +1,19 @@
 package model;
 
-import lombok.*;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
-@Entity
-@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "isik")
-public class Person extends BaseEntity {
+public class Person {
+
+    private Long id;
 
     @NonNull
-    @Column(name = "nimi")
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "aadressi_id")
-    private Address address;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(
-            name = "isiku_telefonid",
-            joinColumns=@JoinColumn(name = "isiku_id",
-                    referencedColumnName = "id"))
-    private List<Phone> phones = new ArrayList<>();
 
 }

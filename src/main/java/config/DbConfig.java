@@ -8,20 +8,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@EnableTransactionManagement
 @ComponentScan(basePackages = {"dao"})
 @PropertySource("classpath:/application.properties")
 public class DbConfig {
@@ -33,11 +28,6 @@ public class DbConfig {
     public EntityManagerFactory entityManagerFactory(
             DataSource dataSource,
             @Qualifier("dialect") String  dialect) {
-
-        var populator = new ResourceDatabasePopulator(
-                new ClassPathResource("schema.sql"));
-
-        DatabasePopulatorUtils.execute(populator, dataSource);
 
         LocalContainerEntityManagerFactoryBean factory =
                 new LocalContainerEntityManagerFactoryBean();
@@ -60,7 +50,7 @@ public class DbConfig {
 
     private Properties additionalProperties(String dialect) {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "validate");
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", dialect);
         properties.setProperty("hibernate.show_sql", "false");
         properties.setProperty("hibernate.format_sql", "true");
