@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'org.gretty' version '2.3.1'
 }
 
 repositories {
@@ -9,40 +8,40 @@ repositories {
 
 sourceCompatibility = 11
 
-def springVersion = '5.2.0.RELEASE'
-def postgresVersion = '42.2.7'
-def hsqlVersion = '2.5.0'
+def springVersion = '5.2.9.RELEASE'
+def postgresVersion = '42.2.18'
+def hsqlVersion = '2.5.1'
 def log4jVersion = '2.12.1'
-def lombokVersion = '1.18.10'
-def hibernateVersion = '5.4.7.Final'
+def lombokVersion = '1.18.12'
+def hibernateVersion = '5.4.22.Final'
 
 dependencies {
 
-    compile group: 'org.springframework',
+    implementation group: 'org.springframework',
             name: 'spring-context',
             version: springVersion
 
-    compile group: 'org.springframework',
+    implementation group: 'org.springframework',
             name: 'spring-orm',
             version: springVersion
 
-    compile group: 'org.hibernate',
+    implementation group: 'org.hibernate',
             name: 'hibernate-core',
             version: hibernateVersion
 
-    compile group: 'org.postgresql',
+    implementation group: 'org.postgresql',
             name: 'postgresql',
             version: postgresVersion
 
-    compile group: 'org.hsqldb',
+    implementation group: 'org.hsqldb',
             name: 'hsqldb',
             version: hsqlVersion
 
-    compile group: 'org.apache.logging.log4j',
+    implementation group: 'org.apache.logging.log4j',
             name: 'log4j-api',
             version: log4jVersion
 
-    compile group: 'org.apache.logging.log4j',
+    implementation group: 'org.apache.logging.log4j',
             name: 'log4j-core',
             version: log4jVersion
 
