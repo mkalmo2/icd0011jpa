@@ -21,9 +21,6 @@ import java.util.Properties;
 @PropertySource("classpath:/application.properties")
 public class DbConfig {
 
-    @Autowired
-    private Environment env;
-
     @Bean
     public EntityManagerFactory entityManagerFactory(
             DataSource dataSource,

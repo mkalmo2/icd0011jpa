@@ -1,6 +1,5 @@
 package config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -13,11 +12,8 @@ import javax.sql.DataSource;
 @PropertySource("classpath:/application.properties")
 public class HsqlDataSource {
 
-    @Autowired
-    private Environment env;
-
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource(Environment env) {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("org.hsqldb.jdbcDriver");
         ds.setUrl(env.getProperty("hsql.url"));
