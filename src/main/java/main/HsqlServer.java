@@ -34,7 +34,7 @@ public class HsqlServer {
 
         private boolean isSql(String line) {
             for (String key : List.of("insert", "create",
-                    "select", "alter")) {
+                    "select", "alter", "update")) {
                 if (line.toLowerCase().contains(key)) {
                     return true;
                 }
