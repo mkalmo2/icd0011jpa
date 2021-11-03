@@ -3,17 +3,17 @@ plugins {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
-sourceCompatibility = 11
+sourceCompatibility = 17
 
-def springVersion = '5.2.9.RELEASE'
-def postgresVersion = '42.2.18'
-def hsqlVersion = '2.5.1'
-def log4jVersion = '2.12.1'
-def lombokVersion = '1.18.12'
-def hibernateVersion = '5.4.22.Final'
+def springVersion = '5.3.11'
+def postgresVersion = '42.2.24'
+def hsqlVersion = '2.6.0'
+def log4jVersion = '2.14.1'
+def lombokVersion = '1.18.22'
+def hibernateVersion = '5.5.8.Final'
 
 dependencies {
 
