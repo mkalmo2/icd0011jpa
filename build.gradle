@@ -4,16 +4,17 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven { url "https://repo.spring.io/milestone/" }
 }
 
 sourceCompatibility = 17
 
-def springVersion = '5.3.11'
-def postgresVersion = '42.2.24'
-def hsqlVersion = '2.6.0'
-def log4jVersion = '2.14.1'
-def lombokVersion = '1.18.22'
-def hibernateVersion = '5.5.8.Final'
+def springVersion = '6.0.0-RC1'
+def postgresVersion = '42.5.0'
+def hsqlVersion = '2.7.1'
+def log4jVersion = '2.19.0'
+def lombokVersion = '1.18.24'
+def hibernateVersion = '6.1.5.Final'
 
 dependencies {
 
