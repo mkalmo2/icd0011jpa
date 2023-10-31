@@ -22,7 +22,7 @@ public class PostgresDataSource {
 
     @Bean("dialect")
     public String dialect() {
-        return "org.hibernate.dialect.PostgreSQL10Dialect";
+        return "org.hibernate.dialect.PostgreSQLDialect";
     }
 
 }
