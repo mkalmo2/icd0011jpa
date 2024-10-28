@@ -6,7 +6,7 @@ import dao.PersonDao;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class Tester {
+public class Main {
 
     public static void main(String[] args) {
 
@@ -14,14 +14,7 @@ public class Tester {
               new AnnotationConfigApplicationContext(
                       DbConfig.class, HsqlDataSource.class);
 
-        try (ctx) {
-
-            PersonDao dao = ctx.getBean(PersonDao.class);
-
-
-        }
-
-
+        PersonDao dao = ctx.getBean(PersonDao.class);
 
 
     }

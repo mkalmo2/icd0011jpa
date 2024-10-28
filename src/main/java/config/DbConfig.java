@@ -45,10 +45,13 @@ public class DbConfig {
 
     private Properties additionalProperties(String dialect) {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        properties.setProperty("hibernate.dialect", dialect);
-        properties.setProperty("hibernate.show_sql", "false");
-        properties.setProperty("hibernate.format_sql", "true");
+        properties.put("hibernate.hbm2ddl.auto", "validate");
+        properties.put("hibernate.dialect", dialect);
+        properties.put("hibernate.show_sql", false);
+        properties.put("hibernate.format_sql", true);
+        properties.put(
+                "hibernate.jpa.compliance.global_id_generators",
+                true);
 
         return properties;
     }
