@@ -38,15 +38,16 @@ factory.setPackagesToScan("model");
   ütleb, et sellest paketist tuleb otsida @Entity ja @Embeddable annotatsiooniga
   märgistatud klasse.
 
-properties.setProperty("hibernate.hbm2ddl.auto", "update");
+properties.put("hibernate.hbm2ddl.auto", "update");
   ütleb, et olemasolevat skeemi tuleb uuendada või kui see puudub, siis uus luua.
 
-properties.setProperty("hibernate.show_sql", "true");
+properties.put("hibernate.show_sql", true);
   ütleb, et näidata välja millised päringud andmebaasi saadetakse.
 
 @Transactional
   ütleb, et selle meetodi alguses tuleb alustada transaktsiooniga
-  ja meetodi lõppedes alustatud transaktsioon lõpetada (commit).
+  ja meetodi lõppedes alustatud transaktsioon lõpetada (commit) ja
+  et ühendus tuleb lahti hoida meetodi kestel.
 
 @Table(name = "<tabeli nimi>") - määrab tabeli nime, kuhu seda tüüpi objektid salvestada.
 
