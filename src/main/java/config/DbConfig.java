@@ -48,9 +48,6 @@ public class DbConfig {
         properties.put("hibernate.dialect", dialect);
         properties.put("hibernate.show_sql", false);
         properties.put("hibernate.format_sql", true);
-        properties.put(
-                "hibernate.jpa.compliance.global_id_generators",
-                true);
 
         return properties;
     }
